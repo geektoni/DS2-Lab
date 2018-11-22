@@ -14,9 +14,13 @@ import scala.concurrent.duration.Duration;
 
 public class GnutellaActor extends UntypedActor {
 	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+	
+	public GnutellaActor(int id) {
+		this.myID =  id;
+	}
 
-	public static Props props() {
-		return Props.create(GnutellaActor.class);
+	public static Props props(int id) {
+		return Props.create(GnutellaActor.class,()->new GnutellaActor(id));
 	}
 	
 	public static class TestStability {
@@ -80,12 +84,12 @@ public class GnutellaActor extends UntypedActor {
     protected void insertPeer(int pID, ActorRef peer) {
     	if (!peerMap.containsKey(pID)) {
     		peerMap.put(pID, peer);
-    		log.info("node {} add {}", myID, pID);
+    		//log.info("node {} add {}", myID, pID);
     	}
     }
     
     protected Map<Integer, ActorRef> peerMap = new HashMap<>();
-    protected int myID = 0;
+    protected int myID ;
     public static final int ITTL = 2;
 
 	@Override
